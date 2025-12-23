@@ -4,17 +4,11 @@ import Button from "./Button";
 
 const Form = () => {
   return (
-    <form>
-      <p>
-        <label htmlFor="nome">Nome</label>
-        <Input />
-      </p>
-      <p>
-        <label htmlFor="email">Email</label>
-        <Input />
-      </p>
+    <div>
+      <Input id="email" label="Email" required />
+      <Input id="senha" type="password" label="Senha" />
       <Button />
-    </form>
+    </div>
   );
 };
 
