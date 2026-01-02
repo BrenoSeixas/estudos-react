@@ -1,5 +1,5 @@
 import React from "react";
-import Produtos from "./Produtos";
+import Produto from "./Produto";
 
 // Quando o usuário clicar em um dos botões, faça um fetch do produto clicado utilizando a api abaixo
 // https://ranekapi.origamid.dev/json/api/produto/notebook
@@ -11,24 +11,29 @@ import Produtos from "./Produtos";
 const App = () => {
   const [produto, setProduto] = React.useState(null);
 
-  async function handleClick(event) {
-    const response = await fetch(
-      `https://ranekapi.origamid.dev/json/api/produto/${event.target.innerText}`
-    );
-    const json = await response.json();
-    setProduto(json);
+  React.useEffect(() => {
+    const produtoLocal = window.localStorage.getItem("produto");
+    if (produtoLocal !== null) setProduto(produtoLocal);
+  }, []);
+
+  React.useEffect(() => {
+    if (produto !== null) window.localStorage.setItem("produto", produto);
+  }, [produto]);
+
+  function handleClick(event) {
+    setProduto(event.target.innerText);
   }
 
   return (
     <div>
-      <h1>Preferência:{produto.nome} </h1>
+      <h1>Preferência: {produto}</h1>
       <button style={{ margin: "2px" }} onClick={handleClick}>
         notebook
       </button>
       <button style={{ margin: "2px" }} onClick={handleClick}>
         smartphone
       </button>
-      {produto && <Produtos dados={produto} />}
+      <Produto produto={produto}/>
     </div>
   );
 };
