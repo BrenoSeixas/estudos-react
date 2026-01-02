@@ -1,33 +1,34 @@
 import React from "react";
 import Produtos from "./Produtos";
 
+// Quando o usuário clicar em um dos botões, faça um fetch do produto clicado utilizando a api abaixo
+// https://ranekapi.origamid.dev/json/api/produto/notebook
+// https://ranekapi.origamid.dev/json/api/produto/smartphone
+// Mostre o nome e preço na tela (separe essa informação em um componente Produto.js)
+// Defina o produto clicado como uma preferência do usuário no localStorage
+// Quando o usuário entrar no site, se existe um produto no localStorage, faça o fetch do mesmo
+
 const App = () => {
-  const [dados, setDados] = React.useState(null);
-  const [carregando, setCarregando] = React.useState(null);
+  const [produto, setProduto] = React.useState(null);
 
   async function handleClick(event) {
-    setCarregando(true);
     const response = await fetch(
       `https://ranekapi.origamid.dev/json/api/produto/${event.target.innerText}`
     );
     const json = await response.json();
-    setDados(json);
-    setCarregando(false);
+    setProduto(json);
   }
 
   return (
     <div>
-      <button style={{ margin: ".5rem" }} onClick={handleClick}>
+      <h1>Preferência:{produto.nome} </h1>
+      <button style={{ margin: "2px" }} onClick={handleClick}>
         notebook
       </button>
-      <button style={{ margin: ".5rem" }} onClick={handleClick}>
+      <button style={{ margin: "2px" }} onClick={handleClick}>
         smartphone
       </button>
-      <button style={{ margin: ".5rem" }} onClick={handleClick}>
-        tablet
-      </button>
-      {carregando && <p>Carregando...</p>}
-      {!carregando && dados && <Produtos dados={dados} />}
+      {produto && <Produtos dados={produto} />}
     </div>
   );
 };
