@@ -1,40 +1,20 @@
 import React from "react";
 import Produto from "./Produto";
+import { GlobalStorage } from "./GlobalContent";
 
-// Quando o usuário clicar em um dos botões, faça um fetch do produto clicado utilizando a api abaixo
-// https://ranekapi.origamid.dev/json/api/produto/notebook
-// https://ranekapi.origamid.dev/json/api/produto/smartphone
-// Mostre o nome e preço na tela (separe essa informação em um componente Produto.js)
-// Defina o produto clicado como uma preferência do usuário no localStorage
-// Quando o usuário entrar no site, se existe um produto no localStorage, faça o fetch do mesmo
+// Utilize o GlobalContext do exemplo anterior para puxar os dados da API abaixo:
+// https://ranekapi.origamid.dev/json/api/produto/
+// assim que o usuário acessar o app
+// coloque os dados da API no contexto global, dando acesso aos dados da mesma
+// defina uma função chamada limparDados que é responsável por zerar os dados de produto
+// e exponha essa função no contexto global
+
 
 const App = () => {
-  const [produto, setProduto] = React.useState(null);
-
-  React.useEffect(() => {
-    const produtoLocal = window.localStorage.getItem("produto");
-    if (produtoLocal !== null) setProduto(produtoLocal);
-  }, []);
-
-  React.useEffect(() => {
-    if (produto !== null) window.localStorage.setItem("produto", produto);
-  }, [produto]);
-
-  function handleClick(event) {
-    setProduto(event.target.innerText);
-  }
-
   return (
-    <div>
-      <h1>Preferência: {produto}</h1>
-      <button style={{ margin: "2px" }} onClick={handleClick}>
-        notebook
-      </button>
-      <button style={{ margin: "2px" }} onClick={handleClick}>
-        smartphone
-      </button>
-      <Produto produto={produto}/>
-    </div>
+    <GlobalStorage>
+      <Produto />
+    </GlobalStorage>
   );
 };
 
